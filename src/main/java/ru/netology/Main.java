@@ -86,31 +86,21 @@ public class Main {
             NodeList nodeList = root.getChildNodes();
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
-                if (Node.ELEMENT_NODE == node.getNodeType()) {
-                    Element element = (Element) node;
-                    NodeList nodeList1 = element.getChildNodes();
-                    Employee employee = new Employee();
+                if (node.getNodeName().equals("employee")) {
+                    NodeList nodeList1 = node.getChildNodes();
                     for (int k = 0; k < nodeList1.getLength(); k++) {
-                        Node nodeTest = nodeList1.item(k);
-                        String name = node.getNodeName();
-                        String value = nodeTest.getTextContent();
-                        if (name.equals("id")) {
-                            employee.id = Long.parseLong(value);
-                        }
-                        if (name.equals("firstName")) {
-                            employee.firstName = value;
-                        }
-                        if (name.equals("lastName")) {
-                            employee.lastName = value;
-                        }
-                        if (name.equals("country")) {
-                            employee.country = value;
-                        }
-                        if (name.equals("age")) {
-                            employee.age = Integer.parseInt(value);
+                        Node node1 = nodeList1.item(k);
+                        if (Node.ELEMENT_NODE == node1.getNodeType()) {
+                            elements.add(node1.getTextContent());
                         }
                     }
-                    employees.add(employee);
+                    employees.add(new Employee(
+                            Long.parseLong(elements.get(0)),
+                            elements.get(1),
+                            elements.get(2),
+                            elements.get(3),
+                            Integer.parseInt(elements.get(4))));
+                    elements.clear();
                 }
             }
         } catch (ParserConfigurationException | IOException | SAXException e) {
